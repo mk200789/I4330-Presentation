@@ -1,0 +1,16 @@
+{
+  "name": "yarntrack",
+  "description": "A starter project for AngularJS",
+  "version": "0.0.0",
+  "homepage": "https://github.com/mk200789/I4330-Presentation/",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "1.3.x",
+    "jquery": "~2.1.1",
+    "angular-route": "1.3.x",
+    "angular-ui-router":"~0.2.10",
+    "angular-resource": "1.3.x",
+    "angular-animate": "1.3.x"
+  }
+}

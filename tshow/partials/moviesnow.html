@@ -1,0 +1,15 @@
+<div class="container" ng-controller="movieController" ng-init="init()">
+	<p>{{test}}</p>
+	<br/>
+	<h2>Now Playing: </h2> {{dates[0]['maximum']}} - {{dates[0]['minimum']}} 
+	<br />
+	<br />
+	<table ng-repeat="film in result"> 
+		<td><img src="https://image.tmdb.org/t/p/original/{{film.poster_path}}" ng-if="film.poster_path!==null" width="100" >
+			<img src="https://paperbotz.files.wordpress.com/2010/11/hello_kitty001.png" ng-if="film.poster_path==null" width="100"></td>
+		<td><p>{{film.original_title}}</p>
+		<p>Release date: {{film.release_date}}</p>
+		<p ng-if="film.vote_count">Vote Average: {{film.vote_average}}/ ({{film.vote_count}} votes)</p></td>
+
+	</table>
+</div>

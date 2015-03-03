@@ -1,0 +1,14 @@
+<div class="container" ng-controller="tvController" ng-init="init()">
+	<p>{{test}}</p>
+	<br/>
+	<h2>Airing today: </h2>
+	<table ng-repeat="show in result">
+		<td><a href="https://image.tmdb.org/t/p/original/{{show.poster_path}}"><img src="https://image.tmdb.org/t/p/original/{{show.poster_path}}" width="100"></a></td>
+		<td>
+			<p>{{show.original_name}}</p>
+			<p>Show ID: {{show.id}}</p>
+			<p ng-if="show.vote_count">Vote Average: {{show.vote_average}}/ ({{show.vote_count}} votes)</p>
+		</td>
+	</table>
+
+</div>

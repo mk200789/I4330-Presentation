@@ -1,0 +1,15 @@
+<div class= "container" ng-controller="mainMovController">
+	<div class="search-box row-fluid form-inline">
+		<label>Search: </label>
+		<input ng-model="searchText" ng-change="search()"/>
+	</div>
+
+	<br/>
+
+	<!--result-->
+
+	<li ng-repeat ="movie in result">
+		<bold>{{movie.original_name}}</bold>
+	</li>
+
+</div>
