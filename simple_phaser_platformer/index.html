@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+		<meta charset = "UTF-8"/>
+		<title> Simple phaser's platformer </title>
+		<script type = "text/javascript" src="js/phaser.min.js"></script>
+</head>
+<body>
+	<script type = "text/javascript">
+	//create new phaser game, include the phaser states that will be using
+	var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update});
+	
+	function preload(){
+		// load image in the order you want it to appear
+		game.load.image('sky', 'assets/sky.png');
+		game.load.image('diamond', 'assets/diamond.png');
+		game.load.image('ground', 'assets/platform.png');
+		game.load.image('dude', 'assets/dude.png');
+	}
+
+	</script>
+</body>
+</html>
