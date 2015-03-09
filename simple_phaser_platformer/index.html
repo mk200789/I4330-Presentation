@@ -18,6 +18,28 @@
 		game.load.image('dude', 'assets/dude.png');
 	}
 
+	var platforms;
+
+	function create(){
+		//enable arcade physics system
+		game.physics.startSystem(Phaser.physics.ARCADE);
+
+
+		//background for the game
+		game.add.sprite(0,0,'sky');
+
+		//create a group called "platform" that contain the ground and ledges
+		platforms = game.add.group();
+
+		//enable physics for all the objects created on the platform group
+		platforms.enableBody = true;
+
+		//create a ground for the platform
+		var ground = platforms.create(0, game.world.height-64, 'ground');
+
+		//scale the ground to fit the width of the game, since original is 400*32
+		ground.scale.setTo(2,2);
+	}
 	</script>
 </body>
 </html>
