@@ -8,22 +8,28 @@
 <body>
 	<script type = "text/javascript">
 	//create new phaser game, include the phaser states that will be using
-	var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update});
+	var game = new Phaser.Game(800, 600, Phaser.AUTO, 'simple-platformer', { preload: preload, create: create, update: update});
 	
 	function preload(){
 		// load image in the order you want it to appear
 		game.load.image('sky', 'assets/sky.png');
 		game.load.image('diamond', 'assets/diamond.png');
 		game.load.image('ground', 'assets/platform.png');
-		game.load.image('dude', 'assets/dude.png');
+		game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
 	}
 
-	var platforms, players, diamonds;
+	var platforms, players, diamonds, scoreText;
+	var cursors;
+	var score = 0;
+	var counter = 0;
+	var text;
 
 	function create(){
-		//enable arcade physics system
-		game.physics.startSystem(Phaser.physics.ARCADE);
+		//timer
+		game.time.events.loop(Phaser.Timer.SECOND, updateCounter, this);
 
+		//enable arcade physics system
+		game.physics.startSystem(Phaser.Physics.ARCADE);
 
 		//background for the game
 		game.add.sprite(0,0,'sky');
@@ -56,6 +62,9 @@
 		//fixed ledge
 		ledge.body.immovable = true;
 
+		//text for counter in seconds
+		text = game.add.text(game.world.centerX, game.world.centerY, 'Counter: 0', { font: "64px Arial", fill: "#ffffff", align: "center" });		
+
 		//create player and its default settings
 		player = game.add.sprite(32, game.world.height-150, 'dude');
 
@@ -70,8 +79,7 @@
 		//add animations for player
 		player.animations.add('left', [0, 1, 2, 3], 10, true);
 		player.animations.add('right', [5, 6, 7, 8], 10, true);
-
-
+		
 		//create diamond group
 		diamonds = game.add.group();
 
@@ -80,14 +88,69 @@
 
 		//create 12 evenly spaced diamonds
 		for (var i = 0; i < 12; i++){
-			var diamond = diamonds.create(i*70, 0, 'diamonds');
+		//create a diamond inside of the 'diamonds' group
+		var diamond = diamonds.create(i*70, 0, 'diamond');
 
-			//apply gravity
-			diamond.body.gravity.y = 6;
+		//apply gravity
+		diamond.body.gravity.y = 6;
 
-			//give slight random value for bounce
-			diamond.body.bounce.y = 0.7+Math.random()*0.2;
+		//give some slight random bounce
+		diamond.body.bounce.y = 0.7+Math.random()*0.2;
 		}
+		//enable keyboard input to control player
+		cursors = game.input.keyboard.createCursorKeys();
+
+		//create scoreText
+		scoreText = game.add.text(16, 16, 'Score: 0', {fontSize:'32px', fill:'#000'});	
+
+		
+	}
+
+	function update(){
+		//collision of player with the platforms
+		game.physics.arcade.collide(player, platforms);
+		//collision with diamond and platforms
+		game.physics.arcade.collide(diamonds, platforms);
+		//handles overlapping condition between player and diamonds, and call function to it
+		game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this);
+
+		//resets player movement after each update
+		player.body.velocity.x = 0;
+
+
+		if (cursors.left.isDown){
+			player.body.velocity.x = -150;
+			player.animations.play('left');
+		}
+		else if (cursors.right.isDown){
+			player.body.velocity.x = 150;
+			player.animations.play('right');
+		}
+		else{
+			//stand still
+			player.animations.stop();
+			//set to frontal frame
+			player.frame = 4;
+		}
+
+		//if player is standing and user press up, allows player to jump
+		if (cursors.up.isDown && player.body.touching.down){
+			player.body.velocity.y = -350;
+		}
+
+	}
+
+	function  updateCounter(){
+		counter++;
+		text.setText('Counter:' + counter);
+	}
+
+	function collectDiamond(player, diamond){
+		//remove diamond from screen once player and star overlaps
+		diamond.kill();
+		score += 10;
+		scoreText.text = 'Score: '+ score;
+
 	}
 	</script>
 </body>
