@@ -19,7 +19,7 @@
 	}
 
 	var platforms, players, diamonds, scoreText;
-	var cursors;
+	var cursors, jump;
 	var score = 0;
 	var counter = 0;
 	var text;
@@ -99,6 +99,8 @@
 		}
 		//enable keyboard input to control player
 		cursors = game.input.keyboard.createCursorKeys();
+		//define space bar as jump
+		jump = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
 		//create scoreText
 		scoreText = game.add.text(16, 16, 'Score: 0', {fontSize:'32px', fill:'#000'});	
@@ -134,7 +136,10 @@
 		}
 
 		//if player is standing and user press up, allows player to jump
-		if (cursors.up.isDown && player.body.touching.down){
+		//if (cursors.up.isDown && player.body.touching.down){
+		//	player.body.velocity.y = -350;
+		//}
+		if (jump.isDown && player.body.touching.down){
 			player.body.velocity.y = -350;
 		}
 
